@@ -89,11 +89,16 @@ Rectangle {
         ]
 
         transitions: [
-               Transition {
-                   PropertyAnimation { properties: "width,opacity"; target: proficientSkills; duration: 500}
-               }
-           ]
-
+           Transition {
+            from: "Collapsed"
+            to: "Expanded"
+            reversible: true
+                SequentialAnimation{
+                    PropertyAnimation { property: "width"; target: proficientSkills; duration: 250}
+                    PropertyAnimation { property: "opacity"; target: proficientSkills; duration: 150}
+                }
+           }
+        ]
     }
 
     function getBonus()

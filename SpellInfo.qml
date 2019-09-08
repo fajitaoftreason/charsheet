@@ -6,15 +6,43 @@ Rectangle {
     property string spellName;
     property string details;
     property bool expanded: false;
+    property int minWideness: spellTitle.width;
+    property int maxWideness: 400;
 
     property alias statusTracker: status;
 
     color: "transparent"
-    width: expanded ? 400 : spellTitle.width
-    height: expanded ? spellTitle.height + detailsBlob.height + 8 : spellTitle.height
+    width: detailsBlob.width
+    height: spellTitle.height + detailsBlob.height;
+    state: expanded ? "Expanded" : "Collapsed"
+    states: [
+        State {
+            name: "Collapsed"
+            PropertyChanges { target: detailsBlob; width: minWideness; height: 0; opacity: 0 }
+            PropertyChanges { target: detailsBackground; opacity: 0 }
+        },
+        State {
+            name: "Expanded"
+            PropertyChanges { target: detailsBlob; width: maxWideness; height: paintedHeight + padding*2; opacity: 1 }
+            PropertyChanges { target: detailsBackground; opacity: 1 }
+        }
+    ]
 
-    Behavior on height { PropertyAnimation { duration: 500 } }
-    Behavior on width { PropertyAnimation { duration: 500 } }
+    transitions:[
+        Transition {
+            from: "Collapsed"
+            to: "Expanded"
+            reversible: true
+            SequentialAnimation {
+                ParallelAnimation {
+                    PropertyAnimation { target: detailsBlob; properties: "width,height"; duration: 400 }
+                    PropertyAnimation { target: detailsBackground; property: "opacity"; duration: 300 }
+                }
+                PropertyAnimation { target: detailsBlob; properties: "opacity"; duration: 150 }
+            }
+        }
+    ]
+
     MouseArea
     {
         anchors.fill: parent
@@ -64,7 +92,7 @@ Rectangle {
         border.width: 1
         border.color: "#888888"
         visible: (opacity != 0)
-        opacity: root.expanded ? 1 : 0
+        opacity: 0
 
         anchors {
             left: parent.left
@@ -75,8 +103,9 @@ Rectangle {
         Text {
             id: detailsBlob
             visible: (opacity != 0)
-            opacity: root.expanded ? 1 : 0
-            width: root.width
+            opacity: 0
+            width: minWideness
+            height: 0
             padding: 8
 
             text: details
@@ -84,8 +113,6 @@ Rectangle {
             textFormat: Text.StyledText
 
             font.pointSize: 10
-
-            Behavior on opacity { PropertyAnimation { duration: 500 } }
         }
     }
 }
