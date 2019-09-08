@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>StatBlock.qml</file>
+        <file>HealthBar.qml</file>
+        <file>ShieldNumber.qml</file>
+        <file>SpellInfo.qml</file>
+        <file>UsedBox.qml</file>
+        <file>UsesTracker.qml</file>
+        <file>AdjustableNumber.qml</file>
+        <file>LayOnHands.qml</file>
+        <file>AttackRoll.qml</file>
+        <file>Mogak.qml</file>
+        <file>Skaamos.qml</file>
+        <file>MoveSpeed.qml</file>
+    </qresource>
+</RCC>
